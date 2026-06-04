@@ -28,6 +28,8 @@ Abra **`roadmap-claude-code.html`** no navegador para a versão visual (tema esc
 - **Anthropic Academy** (`anthropic.skilljar.com`): Claude Code 101, Claude Code in Action, Introduction to Agent Skills, Introduction to Subagents.
 - **Documentação oficial**: `https://docs.claude.com`.
 
+<img width="641" height="1271" alt="image" src="https://github.com/user-attachments/assets/cb9b720c-9352-4ccc-849c-dfa5f8f11cfa" />
+
 ---
 
 ## 2. Template avançado (`template/`)
