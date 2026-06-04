@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap Claude Code para Devs</title>
+<style>
+  :root{
+    --bg:#0d0d0f; --surface:#17171a; --surface2:#1f1f24; --border:rgba(255,255,255,.1);
+    --text:#ededed; --muted:#a0a0a8; --hint:#76767e;
+    --purple:#7f77dd; --purple-d:#cecbf6; --teal:#1d9e75; --teal-d:#9fe1cb;
+    --coral:#d85a30; --coral-d:#f5c4b3; --amber:#ef9f27; --amber-d:#fac775;
+    --blue:#378add; --blue-d:#b5d4f4; --pink:#d4537e; --pink-d:#f4c0d1;
+    --radius:12px; --font:"Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;padding:32px 20px 60px}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{text-align:center;margin-bottom:8px}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:16px;margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto}
+  .legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:24px 0 36px;font-size:13px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .phase{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:22px;overflow:hidden}
+  .phead{display:flex;align-items:center;gap:14px;padding:18px 22px;border-left:5px solid var(--c)}
+  .pnum{font-size:13px;font-weight:600;color:var(--c-d);background:var(--surface2);border-radius:8px;padding:5px 11px;white-space:nowrap}
+  .ptitle{font-size:19px;font-weight:600}
+  .pgoal{color:var(--muted);font-size:14px;margin-top:2px}
+  .pbody{padding:4px 22px 22px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:720px){.pbody{grid-template-columns:1fr}}
+  .col h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--hint);margin:14px 0 8px;font-weight:600}
+  ul{list-style:none}
+  li{font-size:14.5px;padding:5px 0 5px 20px;position:relative;color:var(--text)}
+  li::before{content:"";position:absolute;left:2px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--c)}
+  .vid{padding:7px 0 7px 20px;position:relative;font-size:14px}
+  .vid::before{content:"\25B6";position:absolute;left:0;top:7px;font-size:9px;color:var(--c)}
+  .vid a{color:var(--blue-d);text-decoration:none}
+  .vid a:hover{text-decoration:underline}
+  .tag{font-size:11px;color:var(--hint);border:1px solid var(--border);border-radius:5px;padding:1px 6px;margin-left:6px}
+  .milestone{margin-top:14px;font-size:13.5px;color:var(--teal-d);background:rgba(29,158,117,.12);border-radius:8px;padding:9px 12px}
+  .milestone b{color:var(--teal-d)}
+  .final{background:linear-gradient(0deg,var(--surface2),var(--surface));border:1px solid var(--purple);border-radius:var(--radius);padding:24px;margin-top:8px}
+  .final h3{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--purple-d)}
+  .final p{color:var(--muted);font-size:14.5px}
+  .foot{text-align:center;color:var(--hint);font-size:12.5px;margin-top:28px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Roadmap Claude Code para Devs</h1>
+    <p class="sub">Do uso diário ao domínio: skills, subagents, paralelismo, MCP e desenvolvimento orientado a requisitos — culminando num template avançado de codificação. Otimizado para Python/IA + Web.</p>
+  </header>
+
+  <div class="legend">
+    <span><i class="dot" style="background:var(--purple)"></i>Fundamentos &amp; fluxo</span>
+    <span><i class="dot" style="background:var(--teal)"></i>Memória &amp; contexto</span>
+    <span><i class="dot" style="background:var(--coral)"></i>Extensão (skills/commands)</span>
+    <span><i class="dot" style="background:var(--amber)"></i>Integração &amp; automação</span>
+    <span><i class="dot" style="background:var(--pink)"></i>Multi-agent &amp; paralelismo</span>
+    <span><i class="dot" style="background:var(--blue)"></i>Projeto final</span>
+  </div>
+
+  <!-- FASE 1 -->
+  <section class="phase" style="--c:var(--purple);--c-d:var(--purple-d)">
+    <div class="phead">
+      <span class="pnum">Fase 1 · ~1 sem</span>
+      <div><div class="ptitle">Fundamentos &amp; o loop agêntico</div>
+      <div class="pgoal">Solidificar o fluxo Explore → Plan → Code → Commit e o plan mode.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>Anatomia do loop agêntico e quando intervir</li>
+          <li>Plan mode e Auto mode: quando usar cada um</li>
+          <li>Contexto: como ler, o que evitar, /compact</li>
+          <li>Permissões básicas e modos de aprovação</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; cursos</h4>
+        <div class="vid"><a href="https://anthropic.skilljar.com/claude-code-101">Claude Code 101 — Anthropic Academy</a><span class="tag">EN · grátis</span></div>
+        <div class="vid"><a href="https://www.youtube.com/watch?v=w8HuiXr5Fkc">Claude Code: Tutorial completo para iniciantes</a><span class="tag">PT-BR</span></div>
+        <div class="vid"><a href="https://www.youtube.com/watch?v=yDO21vewdes">Claude Code — Tutorial completo (iniciantes)</a><span class="tag">PT-BR</span></div>
+        <div class="vid"><a href="https://anthropic.skilljar.com/claude-code-in-action">Claude Code in Action</a><span class="tag">EN · grátis</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> rodar uma feature pequena ponta a ponta usando plan mode antes de editar.</div></div>
+  </section>
+
+  <!-- FASE 2 -->
+  <section class="phase" style="--c:var(--teal);--c-d:var(--teal-d)">
+    <div class="phead">
+      <span class="pnum">Fase 2 · ~3 dias</span>
+      <div><div class="ptitle">CLAUDE.md &amp; organização de pastas</div>
+      <div class="pgoal">Memória de projeto, hierarquia de contexto e estrutura de repositório.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>CLAUDE.md: global (~/.claude), projeto e por subpasta</li>
+          <li>O que colocar (e o que NÃO): regras, comandos, convenções</li>
+          <li>Imports com @arquivo e quando dividir contexto</li>
+          <li>Estrutura: src/core/api/web, tests espelhando src, specs/</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; docs</h4>
+        <div class="vid"><a href="https://code.claude.com/docs/en/memory">Doc oficial: memória do projeto (CLAUDE.md)</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://www.youtube.com/watch?v=uogzSxOw4LU">The Ultimate Claude Code Guide — MCP, Skills &amp; More</a><span class="tag">EN</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> escrever o CLAUDE.md do seu projeto real (use o do template como base).</div></div>
+  </section>
+
+  <!-- FASE 3 -->
+  <section class="phase" style="--c:var(--coral);--c-d:var(--coral-d)">
+    <div class="phead">
+      <span class="pnum">Fase 3 · ~1 sem</span>
+      <div><div class="ptitle">Skills &amp; slash commands</div>
+      <div class="pgoal">Conhecimento procedural reutilizável e atalhos de fluxo.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>SKILL.md: frontmatter, description e descoberta automática</li>
+          <li>Skills de projeto vs. pessoais; arquivos de apoio</li>
+          <li>Slash commands em .claude/commands com $ARGUMENTS</li>
+          <li>Skill Creator e built-in skills</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; cursos</h4>
+        <div class="vid"><a href="https://anthropic.skilljar.com/">Introduction to Agent Skills</a><span class="tag">EN · grátis</span></div>
+        <div class="vid"><a href="https://www.youtube.com/watch?v=Kjh4gdaEE0A">Claude Code: MCPs e Skills — tutorial completo</a><span class="tag">PT-BR</span></div>
+        <div class="vid"><a href="https://www.youtube.com/watch?v=Bf7hfpItrDk">Curso de Claude Code (Skills, MCP, SubAgents)</a><span class="tag">PT-BR</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> criar 1 skill (ex.: revisao-codigo) + 1 slash command (/verificar) próprios.</div></div>
+  </section>
+
+  <!-- FASE 4 -->
+  <section class="phase" style="--c:var(--amber);--c-d:var(--amber-d)">
+    <div class="phead">
+      <span class="pnum">Fase 4 · ~1 sem</span>
+      <div><div class="ptitle">MCP, hooks, settings &amp; plugins</div>
+      <div class="pgoal">Conectar ferramentas externas e automatizar qualidade.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>MCP: claude mcp add, escopos, .mcp.json (filesystem, git, etc.)</li>
+          <li>Hooks: PreToolUse/PostToolUse para lint e testes automáticos</li>
+          <li>settings.json: allow/deny e princípio do menor privilégio</li>
+          <li>Plugins &amp; marketplaces: instalar e empacotar</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; docs</h4>
+        <div class="vid"><a href="https://code.claude.com/docs/en/mcp">Doc oficial: MCP no Claude Code</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://code.claude.com/docs/en/hooks">Doc oficial: hooks</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://blakecrosley.com/guides/claude-code">Guia completo: Hooks, MCP, Skills</a><span class="tag">EN</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> conectar 1 MCP útil + 1 hook que formata/testa ao salvar.</div></div>
+  </section>
+
+  <!-- FASE 5 -->
+  <section class="phase" style="--c:var(--pink);--c-d:var(--pink-d)">
+    <div class="phead">
+      <span class="pnum">Fase 5 · ~1,5 sem</span>
+      <div><div class="ptitle">Subagents, multi-agent &amp; paralelismo</div>
+      <div class="pgoal">Delegar, isolar contexto e escalar o tempo de parede.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>Subagents: .claude/agents/*.md (name, description, tools, model)</li>
+          <li>Quando delegar vs. trabalho sequencial; custo em tokens</li>
+          <li>Paralelismo real: git worktrees e múltiplas sessões</li>
+          <li>Agent teams vs. subagents; modelo mais leve p/ workers</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; docs</h4>
+        <div class="vid"><a href="https://code.claude.com/docs/en/sub-agents">Doc oficial: criar subagents</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://anthropic.skilljar.com/">Introduction to Subagents</a><span class="tag">EN · grátis</span></div>
+        <div class="vid"><a href="https://resources.anthropic.com/hubfs/Claude%20Code%20Advanced%20Patterns_%20Subagents,%20MCP,%20and%20Scaling%20to%20Real%20Codebases.pdf">Advanced Patterns: Subagents, MCP &amp; Scaling (Anthropic)</a><span class="tag">EN · PDF</span></div>
+        <div class="vid"><a href="https://zachwills.net/how-to-use-claude-code-subagents-to-parallelize-development/">Paralelizar desenvolvimento com subagents</a><span class="tag">EN</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> rodar planejador + testador + revisor em conjunto e 2 worktrees em paralelo.</div></div>
+  </section>
+
+  <!-- FASE 6 -->
+  <section class="phase" style="--c:var(--blue);--c-d:var(--blue-d)">
+    <div class="phead">
+      <span class="pnum">Fase 6 · ~1 sem</span>
+      <div><div class="ptitle">Desenvolvimento orientado a requisitos + template final</div>
+      <div class="pgoal">Spec-driven, TDD e consolidação de tudo num template avançado.</div></div>
+    </div>
+    <div class="pbody">
+      <div class="col">
+        <h4>Conteúdos</h4>
+        <ul>
+          <li>Spec-first: requisitos testáveis em specs/ antes de codar</li>
+          <li>TDD com Claude: teste falha → implementa → passa</li>
+          <li>README/contrato-driven; critérios de aceitação</li>
+          <li>Empacotar regras + skills + agents + settings = template</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Vídeos &amp; docs</h4>
+        <div class="vid"><a href="https://code.claude.com/docs/en/common-workflows">Doc oficial: common workflows</a><span class="tag">EN · ref</span></div>
+        <div class="vid"><a href="https://www.udemy.com/course/formacao-desenvolvedor-ia-com-agentes-claude-code-e-codex/">Formação Claude Code 2026 (46h, do zero ao avançado)</a><span class="tag">PT-BR · pago</span></div>
+        <div class="vid"><a href="https://mcp.directory/blog/claude-code-best-practices">Best Practices: de vibe coding a agentic engineering</a><span class="tag">EN</span></div>
+      </div>
+    </div>
+    <div style="padding:0 22px 18px"><div class="milestone"><b>Marco:</b> seu template avançado funcionando num projeto real (o desta entrega é o ponto de partida).</div></div>
+  </section>
+
+  <div class="final">
+    <h3>Entregável final</h3>
+    <p>Um template de codificação versionável com CLAUDE.md (regras + organização de pastas), 3 subagents (planejador, revisor, testador), 2 skills (requisitos-spec, revisao-codigo), 2 slash commands (/verificar, /commit), settings.json com permissões e hook de formatação, .mcp.json e modelo de spec. Já incluído nesta entrega — basta renomear dot-claude para .claude.</p>
+  </div>
+
+  <p class="foot">
+    Tempo total estimado: ~6 semanas em ritmo de quem já usa Claude Code no dia a dia.<br>
+    Sintaxe de skills/subagents/settings evolui entre versões — confirme sempre na doc oficial: code.claude.com/docs
+  </p>
+</div>
+</body>
+</html>
