@@ -6,16 +6,19 @@
       "Read",
       "Edit",
       "Write",
-      "Bash(uv run:*)",
-      "Bash(pytest:*)",
-      "Bash(ruff:*)",
-      "Bash(pnpm:*)",
-      "Bash(npm run:*)",
+      "Bash(mvn:*)",
+      "Bash(./mvnw:*)",
+      "Bash(gradle:*)",
+      "Bash(./gradlew:*)",
+      "Bash(go:*)",
+      "Bash(gofmt:*)",
+      "Bash(golangci-lint:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(git worktree:*)"
     ],
     "deny": [
       "Read(./.env)",
@@ -34,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if echo \"$CLAUDE_FILE_PATHS\" | grep -q '\\.py$'; then uv run ruff format $CLAUDE_FILE_PATHS 2>/dev/null; fi"
+            "command": "if echo \"$CLAUDE_FILE_PATHS\" | grep -q '\\.go$'; then gofmt -w $CLAUDE_FILE_PATHS 2>/dev/null; fi"
           }
         ]
       }

@@ -2,6 +2,7 @@
 
 > Status: Rascunho | Em revisão | Aprovada
 > Autor: <nome> · Data: <YYYY-MM-DD>
+> Pasta da feature: `specs/<feature>/`
 
 ## Problema / Objetivo
 O que queremos resolver e por quê. Quem é o usuário.
@@ -16,8 +17,10 @@ O que esta feature explicitamente NÃO faz.
 ## Requisitos não-funcionais
 - [ ] Performance: ex. p95 < 200ms
 - [ ] Segurança: ...
+- [ ] Observabilidade: logs/métricas relevantes
 
 ## Contrato de API (se aplicável)
+> Detalhe completo em `contracts/`. Resumo aqui.
 ```
 POST /recurso
 req:  { ... }

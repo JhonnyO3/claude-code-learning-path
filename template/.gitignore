@@ -1,8 +1,27 @@
+# Segredos / ambiente
 .env
 .env.*
 secrets/
-node_modules/
-__pycache__/
-.venv/
+
+# Java
+target/
+build/
+bin/
+*.class
+.gradle/
+out/
+
+# Go
+vendor/
+*.exe
+*.test
+*.out
+
+# Geral / IDE
 dist/
+.idea/
+.vscode/
+.DS_Store
+
+# Claude Code (config local não versionada)
 .claude/settings.local.json
