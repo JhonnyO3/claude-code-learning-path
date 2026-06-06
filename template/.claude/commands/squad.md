@@ -5,10 +5,13 @@ allowed-tools: Read, Edit, Bash, Grep, Glob
 
 Execute as tarefas da feature com a squad de subagents.
 
-1. Acione a skill `orquestrar-squad`.
-2. Leia `specs/<feature>/plan.md` (DAG) e `STATUS.md`.
-3. Despache tarefas prontas: paralelas em worktrees (`impl-java`/`impl-go` + `testador`), sequenciais quando há dependência.
-4. Integre cada lote com o subagent `integrador` e rode `/verificar`.
-5. Atualize `STATUS.md` até todas as tarefas ficarem `done`. Sugira `/revisar` ao final.
+1. **Verifique o gate:** `specs/<feature>/plan.md` deve estar `Status: Aprovado`. Se não, PARE e
+   peça a aprovação humana — não despache nada.
+2. Acione a skill `orquestrar-squad`.
+3. Leia `specs/<feature>/plan.md` (DAG), `STATUS.md` e `scenarios/*.feature`.
+4. Despache tarefas prontas: uma instância de `impl-java`/`impl-go` por tarefa + `testador` (TDD via
+   Gherkin), paralelas em worktrees; sequenciais quando há dependência.
+5. Integre cada lote com o subagent `integrador` e rode `/verificar`.
+6. Atualize `STATUS.md` até todas as tarefas ficarem `done`. Sugira `/revisar` ao final.
 
 Feature (nome da pasta em specs/): $ARGUMENTS

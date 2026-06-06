@@ -35,23 +35,29 @@ O desenvolvimento é orquestrado como uma squad: o **orquestrador** (sessão pri
 decompõe e integra; **subagents** especialistas executam tarefas isoladas em contexto próprio.
 A coordenação acontece por **arquivos** em `specs/<feature>/`, não por conversa entre agents.
 
-1. **Spec** (`/spec`): transforme o pedido vago em `specs/<feature>/spec.md` — requisitos testáveis.
-2. **Plan** (`/planejar`): o subagent `arquiteto` gera `plan.md`, **congela contratos** em
-   `contracts/` e quebra em `tasks/NN-*.md` com DAG de dependências. **Sem contrato congelado,
-   nenhuma tarefa de implementação começa.**
-3. **Squad** (`/squad`): o orquestrador despacha tarefas prontas aos `impl-java`/`impl-go` +
-   `testador` (em paralelo via git worktree quando isoladas; sequencial quando há dependência).
-4. **Integrar**: o subagent `integrador` mescla os worktrees, resolve conflitos e roda `/verificar`.
-5. **Revisar** (`/revisar`): o subagent `revisor` relata problemas por severidade.
-6. **Commit** (`/commit`): Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`).
+1. **Negócio/Spec**: escreva o negócio em `specs/<feature>/negocio.md` (seu documento detalhado)
+   ou use `/spec` para transformar um pedido vago em `specs/<feature>/spec.md` (requisitos testáveis).
+2. **Plan** (`/planejar`): roda em sequência:
+   - `explorador` mapeia a codebase → `exploracao.md`;
+   - `arquiteto` gera `plan.md`, **congela contratos** em `contracts/` e quebra em `tasks/NN-*.md` com DAG;
+   - `qa` escreve cenários **Gherkin** por tarefa em `scenarios/*.feature`.
+   **Sem contrato congelado, nenhuma tarefa de implementação começa.**
+3. **🚦 GATE HUMANO (obrigatório)**: o humano revisa `plan.md`, tira dúvidas e **aprova**
+   (muda o Status do `plan.md` para `Aprovado`). `/squad` NÃO roda enquanto não estiver aprovado.
+4. **Squad** (`/squad`): o orquestrador despacha tarefas prontas — `testador` (TDD a partir do Gherkin)
+   + `impl-java`/`impl-go` — em paralelo via git worktree quando isoladas; sequencial quando há dependência.
+5. **Integrar**: o subagent `integrador` mescla os worktrees, resolve conflitos e roda `/verificar`.
+6. **Revisar** (`/revisar`): o subagent `revisor` relata problemas por severidade.
+7. **Commit** (`/commit`): Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`).
 
 Detalhes do modelo em `@docs/squad-playbook.md`.
 
 ## Convenções de código
 
-- **Java:** sem `null` em APIs públicas (use `Optional`); `record` para DTOs imutáveis;
-  exceções tipadas (nada de `throws Exception` genérico); controllers finos (lógica no domínio);
-  imutabilidade por padrão; sem lógica de negócio em getters/setters.
+- **Java:** exceções tipadas (nada de `throws Exception` genérico); controllers finos (lógica no
+  Service/domínio). **Spring Boot:** siga `@docs/convencoes-java-spring.md` (MapStruct,
+  `@RestControllerAdvice`, Lombok `@Data`/`@Builder`, DTO+Entity, rich entities, API-first com
+  `api.yml`/interface Swagger, testes do Controller até bordas mocadas com `@MockBean`, sem comentários).
 - **Go:** erros explícitos (`if err != nil`, com `%w` no wrap); sem `panic` em bibliotecas;
   `context.Context` como primeiro parâmetro e propagado; interfaces pequenas definidas no
   consumidor; sem variáveis globais mutáveis.
@@ -88,3 +94,4 @@ go vet ./... && go test ./... && golangci-lint run
 
 @docs/arquitetura.md
 @docs/squad-playbook.md
+@docs/convencoes-java-spring.md

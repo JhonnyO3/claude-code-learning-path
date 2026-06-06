@@ -11,16 +11,19 @@ trabalhem em paralelo sem conversar entre si.
 
 ## Passos
 
-1. **Delegue ao subagent `arquiteto`** o desenho técnico a partir de `specs/<feature>/spec.md`.
-   Ele explora o código, projeta a arquitetura e propõe contratos + tarefas + DAG.
-2. **Grave os artefatos** em `specs/<feature>/`:
+1. **Explorar** (`explorador`): mapeie a codebase a partir de `negocio.md`/`spec.md` →
+   grave `specs/<feature>/exploracao.md` (estrutura, convenções reais, reuso, integrações, riscos).
+2. **Arquitetar** (`arquiteto`): com a exploração + a spec, projete e **grave os artefatos** em `specs/<feature>/`:
    - `plan.md` (de `_template-plan.md`): arquitetura, decisões, tabela de tarefas com DAG, riscos,
-     ordem de integração, verificação da feature.
-   - `contracts/<nome>.md` (de `_template-contract.md`): um por fronteira. Marque cada um como
-     **Congelado** quando estável.
+     ordem de integração, verificação da feature. **Status inicial: `Rascunho`.**
+   - `contracts/<nome>.md` (de `_template-contract.md`): um por fronteira. Marque como **Congelado** quando estável.
    - `tasks/NN-*.md` (de `_template-task.md`): uma por unidade de trabalho.
    - `STATUS.md`: task board com todas as tarefas em `todo`.
-3. **Valide o DAG** antes de seguir para `/squad`.
+3. **QA** (`qa`): transforme critérios de aceite em cenários **Gherkin** →
+   `specs/<feature>/scenarios/NN-*.feature` (um conjunto por tarefa).
+4. **🚦 Gate humano:** apresente o `plan.md` ao humano para leitura, dúvidas e ajustes.
+   **NÃO prossiga para `/squad`.** A implementação só começa quando o humano mudar o
+   `Status` do `plan.md` para `Aprovado`.
 
 ## Regras de uma boa decomposição
 
@@ -44,4 +47,4 @@ trabalhem em paralelo sem conversar entre si.
 | 02 | ...    | java  | todo   | —               |      |
 ```
 
-Próximo passo: `/squad <feature>`.
+Próximo passo (somente após aprovação humana do `plan.md`): `/squad <feature>`.

@@ -11,7 +11,9 @@ você e pelos arquivos em `specs/<feature>/`. Ver `docs/squad-playbook.md`.
 
 ## Pré-condições
 
-- `plan.md` com DAG e `STATUS.md` existem.
+- **`plan.md` com `Status: Aprovado`** (gate humano). Se estiver `Rascunho`, PARE — peça a aprovação
+  humana antes de despachar qualquer tarefa.
+- `plan.md` com DAG, `STATUS.md` e `scenarios/*.feature` (Gherkin do QA) existem.
 - Todos os contratos usados por tarefas prontas estão **Congelados**. Se algum estiver em rascunho,
   PARE e volte a `/planejar`.
 
@@ -26,8 +28,9 @@ Repita até todas as tarefas estarem `done`:
    - **Sequencial:** tarefas que compartilham arquivos ou têm dependência pendente.
 4. **Despache (paralelo):** para cada tarefa paralelizável,
    - crie um worktree isolado: `git worktree add ../<proj>-taskNN -b task/NN`;
-   - dispare o agente certo pela stack (`impl-java` ou `impl-go`) **e** `testador` — emita as
-     chamadas Agent **na mesma mensagem** para rodarem juntas;
+   - dispare **uma instância nova** do agente certo pela stack (`impl-java` ou `impl-go`) **por tarefa**,
+     junto do `testador` — TDD: o `testador` converte os `scenarios/*.feature` em testes que falham
+     primeiro, e o `impl-*` os faz passar. Emita as chamadas Agent **na mesma mensagem** para rodarem juntas;
    - marque a tarefa como `doing` no `STATUS.md` (anote worktree/branch).
 5. **Despache (sequencial):** uma tarefa por vez, mesmo procedimento sem worktrees paralelos.
 6. **Integre o lote:** quando os agentes do lote retornarem, dispare o subagent `integrador` para

@@ -22,8 +22,11 @@ O que esta tarefa entrega (1–3 frases). Mapeia para qual(is) RF da `spec.md`.
 - Depende de: <ids ou "—">
 - Bloqueia: <ids ou "—">
 
+## Cenários (Gherkin)
+- `scenarios/NN-<slug>.feature` (escrito pelo QA) — base do TDD do `testador`.
+
 ## Critérios de aceite → testes
-- [ ] CA1: ... → `tests/...` (ou `*_test.go` / `*Test.java`)
+- [ ] CA1: ... → cenário `...` → `tests/...` (ou `*_test.go` / `*Test.java`)
 - [ ] CA2: ...
 
 ## Verificação local (rodar nesta tarefa antes de relatar)

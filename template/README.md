@@ -24,25 +24,29 @@ CLAUDE.md                       # regras + memória do projeto (fonte da verdade
 .claude/
   settings.json                 # permissões Java/Go + hook gofmt automático
   agents/
+    explorador.md               # só-leitura: mapeia a codebase antes de planejar
     arquiteto.md                # só-leitura: plano técnico + DAG + contratos
+    qa.md                       # critérios de aceite -> cenários Gherkin
     impl-java.md                # implementa UMA tarefa Java contra o contrato
     impl-go.md                  # implementa UMA tarefa Go contra o contrato
-    testador.md                 # TDD: JUnit 5 / go test (table-driven)
+    testador.md                 # TDD: converte Gherkin em JUnit 5 / go test
     integrador.md               # mescla worktrees, resolve conflitos, verifica
     revisor.md                  # code review por severidade (só relata)
   commands/
     spec.md         /spec       # cria/atualiza a spec da feature
-    planejar.md     /planejar   # arquiteto: plan.md + contracts/ + tasks/ + STATUS.md
-    squad.md        /squad      # orquestra a execução das tarefas
+    explorar.md     /explorar   # mapeia a codebase (explorador)
+    planejar.md     /planejar   # explorador + arquiteto + QA, para no gate humano
+    squad.md        /squad      # orquestra a execução (exige plan.md Aprovado)
     verificar.md    /verificar  # detecta stack e roda build+test+lint
     revisar.md      /revisar    # dispara o subagent revisor
     commit.md       /commit     # Conventional Commits
   skills/
     requisitos-spec/            # pedido vago -> spec testável
-    decompor-tarefas/           # spec -> plano + contratos + tarefas (DAG)
+    decompor-tarefas/           # explorador+arquiteto+QA -> plano + contratos + tarefas + Gherkin
     orquestrar-squad/           # o coração: dispatch paralelo + integração
     revisao-codigo/             # checklist de autorrevisão
 specs/
+  _template-negocio.md          # modelo de documento de negócio (entrada)
   _template-spec.md             # modelo de requisitos
   _template-plan.md             # modelo de plano técnico + DAG
   _template-contract.md         # modelo de contrato de interface
@@ -50,17 +54,29 @@ specs/
 docs/
   arquitetura.md                # importado pelo CLAUDE.md
   squad-playbook.md             # como a squad opera (referência)
+  convencoes-java-spring.md     # regras Java/Spring (MapStruct, Lombok, testes, API-first)
 ```
 
 ## Fluxo recomendado
 
 ```
-/spec "<descrição da feature>"   → specs/<feature>/spec.md            (o quê / porquê)
-/planejar <feature>              → plan.md + contracts/ + tasks/ + STATUS.md   (arquiteto)
-/squad <feature>                 → impl-java ∥ impl-go ∥ testador → integrador → /verificar
-/revisar                         → relatório do revisor
-/commit                          → Conventional Commits
+# 1. Negócio (você escreve) — ou /spec para gerar a partir de algo vago
+specs/<feature>/negocio.md
+
+# 2. Refinamento técnico (explorador → arquiteto → QA), PARA no gate humano
+/planejar <feature>   → exploracao.md + plan.md + contracts/ + tasks/ + scenarios/*.feature + STATUS.md
+
+# 3. 🚦 GATE HUMANO: revise o plan.md, tire dúvidas, mude Status para "Aprovado"
+
+# 4. Execução (uma instância de impl-* por task, TDD via Gherkin)
+/squad <feature>      → testador + impl-java ∥ impl-go (worktrees) → integrador → /verificar
+
+# 5. Revisão e commit
+/revisar              → relatório do revisor
+/commit               → Conventional Commits
 ```
+
+> O gate humano (passo 3) é obrigatório: a squad não coda enquanto o `plan.md` não estiver `Aprovado`.
 
 ## Como a "squad" realmente funciona
 

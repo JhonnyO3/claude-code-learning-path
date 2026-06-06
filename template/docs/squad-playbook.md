@@ -21,22 +21,39 @@ fronteira estável — exatamente como uma squad humana paraleliza definindo as 
 
 | Papel        | Subagent      | Escreve código? | Função |
 |--------------|---------------|-----------------|--------|
+| Explorador   | `explorador`  | Não (só-leitura)| mapeia a codebase antes de planejar → `exploracao.md` |
 | Arquiteto    | `arquiteto`   | Não (só-leitura)| spec → plano + DAG + contratos congelados |
+| QA           | `qa`          | Só `.feature`   | critérios de aceite → cenários Gherkin |
 | Impl. Java   | `impl-java`   | Sim             | implementa UMA tarefa Java contra o contrato |
 | Impl. Go     | `impl-go`     | Sim             | implementa UMA tarefa Go contra o contrato |
-| Testador     | `testador`    | Sim (testes)    | TDD: escreve teste que falha primeiro |
+| Testador     | `testador`    | Sim (testes)    | TDD: converte Gherkin em teste que falha primeiro |
 | Integrador   | `integrador`  | Sim (merge/fix) | mescla worktrees, resolve conflitos, verifica |
 | Revisor      | `revisor`     | Não (só relata) | code review por severidade |
+
+### Um papel, várias instâncias
+Cada subagent é um **papel** (molde). O orquestrador cria uma **instância nova e isolada por tarefa**:
+5 tarefas Java = 5 instâncias de `impl-java` rodando em paralelo, cada uma no seu worktree. Você não
+tem "um agente Java", tem "N trabalhadores Java", um por task.
 
 ## Estrutura de coordenação em `specs/<feature>/`
 
 ```
-spec.md          # o quê / porquê
-plan.md          # como: arquitetura + DAG de tarefas
+negocio.md       # ENTRADA: documento de negócio (escrito pelo humano)
+spec.md          # o quê / porquê (requisitos testáveis)
+exploracao.md    # mapa da codebase (explorador)
+plan.md          # como: arquitetura + DAG de tarefas — tem Status: Rascunho|Aprovado
 contracts/       # interfaces CONGELADAS (a fronteira entre tarefas)
 tasks/NN-*.md    # tarefas isoladas, auto-contidas, com arquivos próprios
+scenarios/*.feature  # cenários Gherkin (QA), base do TDD
 STATUS.md        # task board: todo | doing | done | blocked (por tarefa)
 ```
+
+## Gate humano (obrigatório)
+
+Entre o planejamento e a implementação há um **checkpoint humano**. Depois que `explorador`,
+`arquiteto` e `qa` produzem os artefatos, o humano lê o `plan.md`, tira dúvidas e ajusta. A squad
+**só começa a codar** quando o humano muda `Status: Aprovado` no `plan.md`. O `/squad` recusa rodar
+enquanto o plano estiver `Rascunho`. É aqui que erros de arquitetura são pegos antes de virar código.
 
 ## Ciclo de execução (o que o `/squad` faz)
 
