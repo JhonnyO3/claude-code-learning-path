@@ -5,6 +5,8 @@ skills, subagents, slash commands, MCP e settings prontos para um fluxo **spec-d
 orquestrado como uma **squad**: você delega uma spec, o Claude planeja tecnicamente,
 quebra em tarefas isoladas e despacha cada uma a um subagent especialista.
 
+> 📘 **Novo por aqui?** Comece pelo [TUTORIAL.md](TUTORIAL.md) — passo a passo de uso do início ao fim.
+
 ## Instalação
 
 1. Copie o conteúdo deste diretório para a raiz do seu projeto (inclui a pasta `.claude/`).
