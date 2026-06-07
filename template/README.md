@@ -18,6 +18,25 @@ quebra em tarefas isoladas e despacha cada uma a um subagent especialista.
    ```
 5. Abra o projeto e rode `claude`. Teste com `/verificar` e `/commit`.
 
+### Motor reutilizável em escopo usuário (todos os projetos)
+
+Para usar o kit em **qualquer projeto** sem copiar nada, instale o **motor** (agents/skills/commands)
+em escopo usuário (`~/.claude/`). A partir daí, comandos como `/spec`, `/planejar` e `/squad` valem em
+todo projeto que você abrir. Faça uma vez:
+
+```bash
+SRC="<caminho-deste-template>/.claude"; DST="$HOME/.claude"
+mkdir -p "$DST/agents" "$DST/skills" "$DST/commands"
+cp -r "$SRC/agents/." "$DST/agents/"
+cp -r "$SRC/skills/." "$DST/skills/"
+cp -r "$SRC/commands/." "$DST/commands/"
+# permissões de build + hook gofmt: funda em ~/.claude/settings.local.json (sem sobrescrever)
+```
+
+> `~/.claude/` é uma **cópia**, não um vínculo. Quando você alterar um agent/skill/command **neste
+> template**, rode **`/sync-motor`** (a partir do repo do template) para propagar a mudança ao escopo
+> usuário. Veja a tabela de [Comandos](#comandos).
+
 ## O que vem incluso
 
 ```
@@ -59,6 +78,24 @@ docs/
   convencoes-java-spring.md     # regras Java/Spring (MapStruct, Lombok, testes, API-first)
 ```
 
+## Comandos
+
+Slash commands disponíveis após instalar o kit. Todos operam sobre `specs/<feature>/` do projeto atual.
+
+| Comando | O que faz | Quando usar |
+|---------|-----------|-------------|
+| `/spec <feature>` | Transforma um pedido vago em requisitos testáveis (`spec.md`), via skill `requisitos-spec`. | No início de toda feature ou mudança significativa de comportamento. |
+| `/explorar` | Mapeia a codebase (estrutura, convenções reais, reuso, integrações) via subagent `explorador` → `exploracao.md`. | Antes de planejar, para entender o terreno. Embutido no `/planejar`. |
+| `/planejar <feature>` | Roda `explorador` + `arquiteto` + `qa`: gera `plan.md`, congela `contracts/`, quebra em `tasks/` (DAG) e escreve cenários Gherkin. **Para no gate humano.** | Depois da spec, para virar plano técnico acionável. |
+| `/squad <feature>` | Orquestra a execução: despacha `testador` + `impl-java`/`impl-go` em paralelo (worktrees), depois `integrador`. **Exige `plan.md` Aprovado.** | Após aprovar o `plan.md` no gate humano. |
+| `/verificar` | Detecta a stack pelos arquivos-marcadores e roda build + testes + lint. | Antes de declarar qualquer tarefa pronta; ao fim da integração. |
+| `/revisar` | Dispara o subagent `revisor` para revisão independente do diff (qualidade, segurança, contratos). | Antes de abrir PR ou commitar uma feature. |
+| `/commit` | Cria um commit seguindo a Conventional Commits Specification a partir do que está em stage. | Ao concluir uma unidade de trabalho coesa. |
+| `/sync-motor` | Sincroniza o motor do kit (agents/skills/commands) deste template para `~/.claude` (escopo usuário). | Sempre que você alterar um agent/skill/command do template e quiser propagar para todos os projetos. |
+
+> Os comandos de feature compõem o fluxo na ordem: `/spec` → `/planejar` → 🚦 gate → `/squad` → `/verificar` → `/revisar` → `/commit`.
+> O `/sync-motor` é de manutenção do kit, fora desse fluxo.
+
 ## Fluxo recomendado
 
 ```
@@ -79,6 +116,64 @@ specs/<feature>/negocio.md
 ```
 
 > O gate humano (passo 3) é obrigatório: a squad não coda enquanto o `plan.md` não estiver `Aprovado`.
+
+## Exemplo de utilização
+
+Cenário: um serviço Java (Spring) precisa de um endpoint para **exportar pedidos em CSV**.
+
+**1. Spec a partir de um pedido vago**
+
+```
+> /spec exportar-pedidos-csv
+  "Quero baixar os pedidos de um cliente em CSV, filtrando por período."
+```
+O Claude faz perguntas (formato das colunas? limite de período? autenticação?) e grava
+`specs/exportar-pedidos-csv/spec.md` com requisitos testáveis e critérios de aceite.
+
+**2. Planejamento técnico (para no gate)**
+
+```
+> /planejar exportar-pedidos-csv
+```
+Produz, em `specs/exportar-pedidos-csv/`:
+```
+exploracao.md          # onde vivem PedidoController, PedidoService, repos
+plan.md                # arquitetura + tabela de tarefas com DAG  (Status: Rascunho)
+contracts/
+  csv-export-api.md     # contrato do endpoint GET /pedidos/export (CONGELADO)
+  csv-writer.md         # contrato do componente que serializa CSV (CONGELADO)
+tasks/
+  01-csv-writer.md      # stack java — componente de serialização (sem deps)
+  02-export-endpoint.md # stack java — controller+service (depende de 01)
+scenarios/
+  01-csv-writer.feature
+  02-export-endpoint.feature
+STATUS.md              # 01, 02 em "todo"
+```
+
+**3. 🚦 Gate humano**
+
+Você lê o `plan.md`, ajusta o que quiser e muda `Status: Rascunho` → `Status: Aprovado`.
+Enquanto não aprovar, `/squad` se recusa a rodar.
+
+**4. Execução pela squad**
+
+```
+> /squad exportar-pedidos-csv
+```
+Como a tarefa 02 depende da 01, o orquestrador roda em duas ondas:
+- **Onda 1:** `testador` escreve o teste de `01` a partir do Gherkin (vê falhar) → `impl-java`
+  implementa o CSV writer até passar. `integrador` mescla, roda `/verificar` → `01` vira `done`.
+- **Onda 2:** com `01` pronto, despacha `02` da mesma forma.
+
+(Se 01 e 02 fossem independentes, rodariam em paralelo, cada uma em seu git worktree.)
+
+**5. Revisão e commit**
+
+```
+> /revisar    → revisor aponta problemas por severidade; você corrige o que importa
+> /commit     → feat(pedidos): exporta pedidos em CSV por período
+```
 
 ## Como a "squad" realmente funciona
 
