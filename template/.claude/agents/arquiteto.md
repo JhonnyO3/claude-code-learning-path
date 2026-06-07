@@ -13,7 +13,8 @@ Entrada: `specs/<feature>/spec.md`. Saídas (você descreve o conteúdo; o orque
 ## Processo
 
 1. **Explore o código** com Grep/Glob/Read. Não suponha estrutura — confirme as camadas reais
-   (core/app/adapters) e os arquivos-marcadores de stack (`pom.xml`/`build.gradle` → Java; `go.mod` → Go).
+   (core/app/adapters) e os arquivos-marcadores de stack (`pom.xml`/`build.gradle` → Java; `go.mod` → Go;
+   `pyproject.toml`/`requirements.txt` → Python).
 2. **Leia `spec.md`** e trate como fonte da verdade dos requisitos.
 3. **Projete a arquitetura**: como a feature se encaixa nas camadas, decisões e alternativas descartadas.
 4. **Congele os contratos** (use `_template-contract.md`): toda fronteira entre tarefas (API, interface,

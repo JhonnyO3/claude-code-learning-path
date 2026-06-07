@@ -4,7 +4,7 @@
 > para executar sem conversar com outros agents está aqui ou nos contratos referenciados.
 
 ## Stack
-java | go
+java | go | python
 
 ## Objetivo
 O que esta tarefa entrega (1–3 frases). Mapeia para qual(is) RF da `spec.md`.
@@ -35,6 +35,8 @@ O que esta tarefa entrega (1–3 frases). Mapeia para qual(is) RF da `spec.md`.
 go vet ./... && go test ./<pacote>/...
 # Java
 mvn -q -pl <módulo> test    # ou ./gradlew :<módulo>:test
+# Python
+uv run ruff check . && uv run mypy src && uv run pytest -q
 ```
 
 ## Notas de implementação

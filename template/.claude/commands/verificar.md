@@ -1,5 +1,5 @@
 ---
-description: Detecta a stack (Java/Go) pelos arquivos-marcadores e roda build, testes e lint, relatando o resultado.
+description: Detecta a stack (Java/Go/Python) pelos arquivos-marcadores e roda build, testes e lint, relatando o resultado.
 allowed-tools: Bash, Read, Glob
 ---
 
@@ -9,10 +9,12 @@ Verifique a saúde do projeto antes de concluir uma tarefa.
    - `pom.xml` → Java/Maven
    - `build.gradle` ou `build.gradle.kts` → Java/Gradle
    - `go.mod` → Go
+   - `pyproject.toml` ou `requirements.txt` → Python
 2. **Rode o que se aplica** (em cada módulo detectado):
    - Maven:  `mvn -q verify`
    - Gradle: `./gradlew check`
    - Go:     `go vet ./... && go test ./...` (e `golangci-lint run` se disponível)
+   - Python: `uv run ruff check . && uv run ruff format --check . && uv run mypy src && uv run pytest -q`
 3. **Resuma:** o que passou, o que falhou e os próximos passos para corrigir falhas.
    Não declare "pronto" com build/lint/teste quebrado.
 

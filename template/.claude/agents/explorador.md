@@ -12,7 +12,7 @@ Você não decide arquitetura nem escreve código — você levanta fatos.
 
 1. Leia o documento de entrada da feature (`specs/<feature>/negocio.md` ou `spec.md`) para saber o que procurar.
 2. Mapeie a estrutura real com Glob/Grep/Read (não suponha):
-   - stacks e marcadores (`pom.xml`/`build.gradle` → Java; `go.mod` → Go);
+   - stacks e marcadores (`pom.xml`/`build.gradle` → Java; `go.mod` → Go; `pyproject.toml`/`requirements.txt` → Python);
    - camadas e organização de pacotes/módulos (core/app/adapters; controllers/services/repos);
    - convenções de fato (naming, tratamento de erro, padrões de teste, uso de MapStruct/Lombok, etc.);
    - pontos de integração (DB, filas, clients externos, configs);

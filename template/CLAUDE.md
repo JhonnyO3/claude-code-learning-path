@@ -6,18 +6,20 @@
 ## Visão geral
 
 - **Nome:** <preencher>
-- **Stacks:** Java (backend/serviços) · Go (serviços/CLIs/infra)
-- **Gerenciadores:** Maven ou Gradle (Java) · `go mod` (Go)
-- **Versões:** Java 21 LTS · Go 1.22+
-- **Modelo de repo:** suporta monorepo poliglota (Java + Go) ou mono-idioma. A stack de
-  cada módulo é detectada por arquivos-marcadores (`pom.xml`/`build.gradle` → Java; `go.mod` → Go).
+- **Stacks:** Java (backend/serviços) · Go (serviços/CLIs/infra) · Python (webscraping/dados/scripts)
+- **Gerenciadores:** Maven ou Gradle (Java) · `go mod` (Go) · `uv` (Python)
+- **Versões:** Java 21 LTS · Go 1.22+ · Python 3.12+
+- **Modelo de repo:** suporta monorepo poliglota (Java + Go + Python) ou mono-idioma. A stack de
+  cada módulo é detectada por arquivos-marcadores (`pom.xml`/`build.gradle` → Java; `go.mod` → Go;
+  `pyproject.toml`/`requirements.txt` → Python).
 
 ## Estrutura de pastas
 
 ```
 # Mono-idioma (raiz é o projeto) — exemplos por stack:
-#   Java:  src/main/java · src/test/java · pom.xml | build.gradle
-#   Go:    cmd/ · internal/ · pkg/ · go.mod
+#   Java:   src/main/java · src/test/java · pom.xml | build.gradle
+#   Go:     cmd/ · internal/ · pkg/ · go.mod
+#   Python: src/<pkg>/{domain,app,adapters} · tests/ · pyproject.toml (uv)
 
 # Poliglota (vários serviços):
 services/
@@ -45,7 +47,7 @@ A coordenação acontece por **arquivos** em `specs/<feature>/`, não por conver
 3. **🚦 GATE HUMANO (obrigatório)**: o humano revisa `plan.md`, tira dúvidas e **aprova**
    (muda o Status do `plan.md` para `Aprovado`). `/squad` NÃO roda enquanto não estiver aprovado.
 4. **Squad** (`/squad`): o orquestrador despacha tarefas prontas — `testador` (TDD a partir do Gherkin)
-   + `impl-java`/`impl-go` — em paralelo via git worktree quando isoladas; sequencial quando há dependência.
+   + `impl-java`/`impl-go`/`impl-python` — em paralelo via git worktree quando isoladas; sequencial quando há dependência.
 5. **Integrar**: o subagent `integrador` mescla os worktrees, resolve conflitos e roda `/verificar`.
 6. **Revisar** (`/revisar`): o subagent `revisor` relata problemas por severidade.
 7. **Commit** (`/commit`): Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`).
@@ -61,6 +63,10 @@ Detalhes do modelo em `@docs/squad-playbook.md`.
 - **Go:** erros explícitos (`if err != nil`, com `%w` no wrap); sem `panic` em bibliotecas;
   `context.Context` como primeiro parâmetro e propagado; interfaces pequenas definidas no
   consumidor; sem variáveis globais mutáveis.
+- **Python:** siga `@docs/convencoes-python.md` (uv, ruff, mypy strict, pytest; tipagem completa;
+  erros tipados com `raise ... from e`; sem globais mutáveis; camadas `domain`/`app`/`adapters`).
+  **Webscraping:** respeite `robots.txt`/`Retry-After`, throttling por domínio, backoff com jitter,
+  timeouts explícitos; separe buscar de parsear; dados raspados em `data/` (no `.gitignore`).
 - **Nomes:** Java arquivos `PascalCase.java`, pacotes minúsculos; Go arquivos `snake_case.go`,
   pacotes minúsculos e curtos; constantes `UPPER_SNAKE_CASE` (Java) / `CamelCase` exportado (Go).
 - **Sem segredos no código.** Use variáveis de ambiente. Nunca leia nem escreva `.env*`.
@@ -77,6 +83,9 @@ mvn -q verify
 
 # Go
 go vet ./... && go test ./... && golangci-lint run
+
+# Python (uv)
+uv run ruff check . && uv run ruff format --check . && uv run mypy src && uv run pytest -q
 ```
 
 ## Regras para o agente
@@ -95,3 +104,4 @@ go vet ./... && go test ./... && golangci-lint run
 @docs/arquitetura.md
 @docs/squad-playbook.md
 @docs/convencoes-java-spring.md
+@docs/convencoes-python.md

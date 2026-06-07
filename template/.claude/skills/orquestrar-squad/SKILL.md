@@ -28,7 +28,7 @@ Repita até todas as tarefas estarem `done`:
    - **Sequencial:** tarefas que compartilham arquivos ou têm dependência pendente.
 4. **Despache (paralelo):** para cada tarefa paralelizável,
    - crie um worktree isolado: `git worktree add ../<proj>-taskNN -b task/NN`;
-   - dispare **uma instância nova** do agente certo pela stack (`impl-java` ou `impl-go`) **por tarefa**,
+   - dispare **uma instância nova** do agente certo pela stack (`impl-java`, `impl-go` ou `impl-python`) **por tarefa**,
      junto do `testador` — TDD: o `testador` converte os `scenarios/*.feature` em testes que falham
      primeiro, e o `impl-*` os faz passar. Emita as chamadas Agent **na mesma mensagem** para rodarem juntas;
    - marque a tarefa como `doing` no `STATUS.md` (anote worktree/branch).

@@ -43,14 +43,15 @@ cp -r "$SRC/commands/." "$DST/commands/"
 CLAUDE.md                       # regras + memória do projeto (fonte da verdade)
 .mcp.json                       # servidores MCP (filesystem, git) — exemplo
 .claude/
-  settings.json                 # permissões Java/Go + hook gofmt automático
+  settings.json                 # permissões Java/Go/Python + hook gofmt/ruff automático
   agents/
     explorador.md               # só-leitura: mapeia a codebase antes de planejar
     arquiteto.md                # só-leitura: plano técnico + DAG + contratos
     qa.md                       # critérios de aceite -> cenários Gherkin
     impl-java.md                # implementa UMA tarefa Java contra o contrato
     impl-go.md                  # implementa UMA tarefa Go contra o contrato
-    testador.md                 # TDD: converte Gherkin em JUnit 5 / go test
+    impl-python.md              # implementa UMA tarefa Python (webscraping) contra o contrato
+    testador.md                 # TDD: converte Gherkin em JUnit 5 / go test / pytest
     integrador.md               # mescla worktrees, resolve conflitos, verifica
     revisor.md                  # code review por severidade (só relata)
   commands/
@@ -61,6 +62,7 @@ CLAUDE.md                       # regras + memória do projeto (fonte da verdade
     verificar.md    /verificar  # detecta stack e roda build+test+lint
     revisar.md      /revisar    # dispara o subagent revisor
     commit.md       /commit     # Conventional Commits
+    sync-motor.md   /sync-motor # sincroniza o motor do kit para ~/.claude
   skills/
     requisitos-spec/            # pedido vago -> spec testável
     decompor-tarefas/           # explorador+arquiteto+QA -> plano + contratos + tarefas + Gherkin
@@ -76,6 +78,7 @@ docs/
   arquitetura.md                # importado pelo CLAUDE.md
   squad-playbook.md             # como a squad opera (referência)
   convencoes-java-spring.md     # regras Java/Spring (MapStruct, Lombok, testes, API-first)
+  convencoes-python.md          # regras Python/webscraping (uv, ruff, mypy, pytest, throttling)
 ```
 
 ## Comandos
@@ -203,6 +206,9 @@ O `/squad` faz isso automaticamente quando as tarefas não compartilham arquivos
 - **Java**: o template não força framework. Detecta Maven (`pom.xml`) ou Gradle (`build.gradle`).
   Formatação automática de Java não é feita no hook (use `spotless`/`google-java-format` no build).
 - **Go**: `gofmt -w` roda automaticamente após cada edição de `*.go` (hook em `settings.json`).
+- **Python**: `uv` como gerenciador; `ruff format` roda automaticamente após cada edição de `*.py`
+  (hook em `settings.json`). Foco em **webscraping** (`impl-python`) — ver `docs/convencoes-python.md`.
+  Dados raspados ficam em `data/` (no `.gitignore`); nunca versionados.
 
 > Verifique a sintaxe exata de cada recurso na doc oficial: https://code.claude.com/docs
 > (frontmatter de subagents/skills e o schema de settings.json podem evoluir entre versões.)

@@ -13,6 +13,11 @@
       "Bash(go:*)",
       "Bash(gofmt:*)",
       "Bash(golangci-lint:*)",
+      "Bash(uv:*)",
+      "Bash(ruff:*)",
+      "Bash(mypy:*)",
+      "Bash(pytest:*)",
+      "Bash(python:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git add:*)",
@@ -38,6 +43,10 @@
           {
             "type": "command",
             "command": "if echo \"$CLAUDE_FILE_PATHS\" | grep -q '\\.go$'; then gofmt -w $CLAUDE_FILE_PATHS 2>/dev/null; fi"
+          },
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_FILE_PATHS\" | grep -q '\\.py$'; then ruff format $CLAUDE_FILE_PATHS 2>/dev/null; fi"
           }
         ]
       }

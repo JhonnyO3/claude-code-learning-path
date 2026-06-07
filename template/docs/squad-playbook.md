@@ -26,6 +26,7 @@ fronteira estável — exatamente como uma squad humana paraleliza definindo as 
 | QA           | `qa`          | Só `.feature`   | critérios de aceite → cenários Gherkin |
 | Impl. Java   | `impl-java`   | Sim             | implementa UMA tarefa Java contra o contrato |
 | Impl. Go     | `impl-go`     | Sim             | implementa UMA tarefa Go contra o contrato |
+| Impl. Python | `impl-python` | Sim             | implementa UMA tarefa Python (webscraping) contra o contrato |
 | Testador     | `testador`    | Sim (testes)    | TDD: converte Gherkin em teste que falha primeiro |
 | Integrador   | `integrador`  | Sim (merge/fix) | mescla worktrees, resolve conflitos, verifica |
 | Revisor      | `revisor`     | Não (só relata) | code review por severidade |
@@ -61,7 +62,7 @@ enquanto o plano estiver `Rascunho`. É aqui que erros de arquitetura são pegos
 2. Identifica **tarefas prontas** (todas as dependências `done`).
 3. Para tarefas prontas que **não compartilham arquivos**:
    - cria um `git worktree` por tarefa (isolamento de arquivos);
-   - despacha `impl-java`/`impl-go` (+`testador`) **em paralelo** (várias chamadas Agent numa
+   - despacha `impl-java`/`impl-go`/`impl-python` (+`testador`) **em paralelo** (várias chamadas Agent numa
      única mensagem);
    - marca cada tarefa como `doing` no `STATUS.md`.
 4. Para tarefas com dependência ainda não satisfeita: aguarda (sequencial).

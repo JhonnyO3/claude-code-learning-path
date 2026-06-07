@@ -81,7 +81,7 @@ Quando estiver satisfeito, mude no topo do `plan.md`:
 
 O orquestrador:
 
-- despacha **uma instância de agente por tarefa** (`impl-java` / `impl-go`) + `testador`;
+- despacha **uma instância de agente por tarefa** (`impl-java` / `impl-go` / `impl-python`) + `testador`;
 - tarefas independentes rodam **em paralelo** (git worktrees); dependentes esperam;
 - TDD: o teste (do Gherkin) falha primeiro, a implementação o faz passar;
 - o **integrador** junta tudo e roda `/verificar`.

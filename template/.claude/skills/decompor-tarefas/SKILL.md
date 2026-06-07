@@ -34,7 +34,7 @@ trabalhem em paralelo sem conversar entre si.
 - **Auto-contida:** a tarefa deve trazer tudo que o agente precisa (objetivo, contrato-ref, arquivos,
   critérios de aceite → testes, comando de verificação local).
 - **Tamanho:** prefira tarefas pequenas e verificáveis isoladamente.
-- **Stack explícita:** marque `java` ou `go` para o orquestrador escolher `impl-java`/`impl-go`.
+- **Stack explícita:** marque `java`, `go` ou `python` para o orquestrador escolher `impl-java`/`impl-go`/`impl-python`.
 
 ## STATUS.md inicial (formato)
 
